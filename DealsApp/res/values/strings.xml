@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">DealsApp</string>
+    <string name="app_name">iDeals</string>
     <string name="action_settings">Settings</string>
     <string name="hello_world">Hello world!</string>
     <string name="title_activity_deals_map">DealsMapActivity</string>
     <string name="title_activity_deal_detail">DealDetailActivity</string>
+    <string name="title_activity_deals_home">DealsHomeActivity</string>
 
 </resources>

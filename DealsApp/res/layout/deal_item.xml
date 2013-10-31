@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal" >
+
+    <ImageView
+            android:id="@+id/ivStoreImage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp"
+            android:src="@android:drawable/screen_background_light_transparent" />
+    
+    <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginTop="5dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginBottom="15dp">
+        
+        <TextView
+                android:id="@+id/tvTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="$49 for Exterior and Interior Car Detailing by Hand ($149 Value)" 
+                android:layout_marginBottom="5dp"
+                android:textColor="#4C88C8" />
+        
+        <TextView
+                android:id="@+id/tvDealSource"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="3dp"
+                android:layout_marginBottom="5dp"
+                android:layout_below="@+id/tvTitle"
+                android:layout_alignParentRight="true"
+        		android:text="from GrubHub.com"
+        		android:textSize="10dp" />
+          
+        <RelativeLayout
+    			android:layout_width="fill_parent"
+   				android:layout_height="wrap_content"   
+  				android:orientation="horizontal"
+  				android:layout_below="@+id/tvDealSource"
+  				android:background="#F5F5F5">
+  			
+        	<TextView
+                android:id="@+id/tvPostedDate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+	        	android:text="Posted: MM/DD/YY"
+    	    	android:textSize="10dp" />
+ 
+        	<TextView
+                android:id="@+id/tvExpiryDate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_marginLeft="3dp"
+        		android:text="Expires: MM/DD/YY"
+        		android:textSize="10dp"/>
+        	
+           
+        </RelativeLayout>
+    </RelativeLayout>
+
+
+</LinearLayout>
