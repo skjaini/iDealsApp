@@ -1,7 +1,12 @@
 package com.codepath.dealsapp.model;
 
-public class Deal {
+import java.util.ArrayList;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+public class Deal {
 	String affiliate;
 	String name;
 	String address;
@@ -13,9 +18,47 @@ public class Deal {
 	String phone;
 	String state;
 	String city;
+	String ZIP;
+	String URL;
+	String storeURL;
+	String dealSource;
+	String user;
+	String userID;
+	long ID;
+	String dealTitle;
+	String disclaimer;
+	String dealinfo;
+	String expirationDate;
+	String postDate;
+	String showImage;
+	String showImageStandardBig;
+	String showImageStandardSmall;
+	String showLogo;
+	String up;
+	String down;
+	int DealTypeID;
+	int categoryID;
+	int subcategoryID;
+	double lat;
+	double lon;
+	double distance;
+	float dealOriginalPrice;
+	float dealPrice;
+	float dealSavings;
+	float dealDiscountPercent;
+	private JSONObject jsonObject;
 
+	public String getString(String name) {
+        try {
+            return jsonObject.getString(name);
+        } catch (JSONException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+	
 	public String getAffiliate() {
-		return affiliate;
+		return getString("affiliate");
 	}
 
 	public void setAffiliate(String affiliate) {
@@ -23,7 +66,7 @@ public class Deal {
 	}
 
 	public String getName() {
-		return name;
+		return getString("name");
 	}
 
 	public void setName(String name) {
@@ -127,7 +170,7 @@ public class Deal {
 	}
 
 	public String getDealSource() {
-		return dealSource;
+		return getString("dealSource");
 	}
 
 	public void setDealSource(String dealSource) {
@@ -150,8 +193,8 @@ public class Deal {
 		this.userID = userID;
 	}
 
-	public long getID() {
-		return ID;
+	public String getID() {
+		return getString("ID");
 	}
 
 	public void setID(long iD) {
@@ -159,7 +202,7 @@ public class Deal {
 	}
 
 	public String getDealTitle() {
-		return dealTitle;
+		return getString("dealTitle");
 	}
 
 	public void setDealTitle(String dealTitle) {
@@ -183,7 +226,7 @@ public class Deal {
 	}
 
 	public String getExpirationDate() {
-		return expirationDate;
+		return getString("expirationDate");
 	}
 
 	public void setExpirationDate(String expirationDate) {
@@ -191,7 +234,7 @@ public class Deal {
 	}
 
 	public String getPostDate() {
-		return postDate;
+		return getString("postDate");
 	}
 
 	public void setPostDate(String postDate) {
@@ -199,7 +242,7 @@ public class Deal {
 	}
 
 	public String getShowImage() {
-		return showImage;
+		return getString("showImage");
 	}
 
 	public void setShowImage(String showImage) {
@@ -207,7 +250,7 @@ public class Deal {
 	}
 
 	public String getShowImageStandardBig() {
-		return showImageStandardBig;
+		return getString("showImageStandardBig");
 	}
 
 	public void setShowImageStandardBig(String showImageStandardBig) {
@@ -215,7 +258,7 @@ public class Deal {
 	}
 
 	public String getShowImageStandardSmall() {
-		return showImageStandardSmall;
+		return getString("showImageStandardSmall");
 	}
 
 	public void setShowImageStandardSmall(String showImageStandardSmall) {
@@ -326,33 +369,32 @@ public class Deal {
 		this.dealDiscountPercent = dealDiscountPercent;
 	}
 
-	String ZIP;
-	String URL;
-	String storeURL;
-	String dealSource;
-	String user;
-	String userID;
-	long ID;
-	String dealTitle;
-	String disclaimer;
-	String dealinfo;
-	String expirationDate;
-	String postDate;
-	String showImage;
-	String showImageStandardBig;
-	String showImageStandardSmall;
-	String showLogo;
-	String up;
-	String down;
-	int DealTypeID;
-	int categoryID;
-	int subcategoryID;
-	double lat;
-	double lon;
-	double distance;
-	float dealOriginalPrice;
-	float dealPrice;
-	float dealSavings;
-	float dealDiscountPercent;
+	public static Deal fromJson(JSONObject jsonObject) {
+		Deal deal = new Deal();
+		deal.jsonObject = jsonObject;
+		return deal;
+	}
+
+	public static ArrayList<Deal> fromJSONArray(JSONArray jsonArray) {
+		ArrayList<Deal> deals = new ArrayList<Deal>(jsonArray.length());
+
+		for (int i = 0; i < jsonArray.length(); i++) {
+			JSONObject dealJson = null;
+			
+			try {
+				dealJson = jsonArray.getJSONObject(i);
+			} catch (Exception e) {
+				e.printStackTrace();
+				continue;
+			}
+
+			Deal deal = Deal.fromJson(dealJson);
+			if (deal != null) {
+				deals.add(deal);
+			}
+		}
+
+		return deals;
+	}
 
 }

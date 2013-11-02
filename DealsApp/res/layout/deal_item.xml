@@ -27,7 +27,7 @@
                 android:layout_height="wrap_content"
                 android:text="$49 for Exterior and Interior Car Detailing by Hand ($149 Value)" 
                 android:layout_marginBottom="5dp"
-                android:textColor="#4C88C8" />
+                android:textColor="#FFFFFF" />
         
         <TextView
                 android:id="@+id/tvDealSource"
