@@ -1,10 +1,6 @@
 package com.codepath.dealsapp.model;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.Date;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -401,59 +397,4 @@ public class Deal {
 		return deals;
 	}
 
-}
-
-class ExpiryDealComparator implements Comparator<Deal> {
-	@Override
-	public int compare(Deal lhs, Deal rhs) {
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-		Date expiryDate1 = null;
-		Date expiryDate2 = null;
-
-		try {
-			expiryDate1 = sdf.parse(lhs.getExpirationDate());
-			expiryDate2 = sdf.parse(rhs.getExpirationDate());
-		} catch (ParseException e) {
-			e.printStackTrace();
-		}
-		return expiryDate1.compareTo(expiryDate2);
-	}	
-}
-
-class RecentDealComparator implements Comparator<Deal> {
-	@Override
-	public int compare(Deal lhs, Deal rhs) {
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-		Date expiryDate1 = null;
-		Date expiryDate2 = null;
-
-		try {
-			expiryDate1 = sdf.parse(lhs.getPostDate());
-			expiryDate2 = sdf.parse(rhs.getPostDate());
-		} catch (ParseException e) {
-			e.printStackTrace();
-		}
-		return expiryDate1.compareTo(expiryDate2);
-	}	
-}
-
-class ClosestDealComparator implements Comparator<Deal> {
-	@Override
-	public int compare(Deal lhs, Deal rhs) {
-		return (int)(lhs.distance - rhs.distance);
-	}	
-}
-
-class SavingsDealComparator implements Comparator<Deal> {
-	@Override
-	public int compare(Deal lhs, Deal rhs) {
-		return (int)(lhs.getDealSavings() - rhs.getDealSavings());
-	}	
-}
-
-class DealsCountComparator implements Comparator<Deal> {
-	@Override
-	public int compare(Deal lhs, Deal rhs) {
-		return lhs.getTotalDealsInThisStore() - rhs.getTotalDealsInThisStore();
-	}
 }

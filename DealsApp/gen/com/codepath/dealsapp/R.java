@@ -322,6 +322,7 @@ containing a value of this type.
          */
         public static final int common_signin_button_text_long=0x7f060012;
         public static final int hello_world=0x7f06001b;
+        public static final int string_deals=0x7f060020;
         public static final int string_filter=0x7f06001f;
         public static final int title_activity_deal_detail=0x7f06001d;
         public static final int title_activity_deals_home=0x7f06001e;

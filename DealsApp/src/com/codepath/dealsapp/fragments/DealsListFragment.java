@@ -1,6 +1,7 @@
 package com.codepath.dealsapp.fragments;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 
 import org.json.JSONArray;
 
@@ -17,6 +18,7 @@ import android.widget.AdapterView.OnItemSelectedListener;
 
 import com.codepath.dealsapp.DealsAdapter;
 import com.codepath.dealsapp.R;
+import com.codepath.dealsapp.factories.DealsComparatorFactory;
 import com.codepath.dealsapp.model.Deal;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.JsonHttpResponseHandler;
@@ -50,12 +52,15 @@ public class DealsListFragment extends Fragment {
 			@Override
 			public void onItemSelected(AdapterView<?> arg0, View arg1,
 					int arg2, long arg3) {
-//				size = (String)sortSpinner.getItemAtPosition(arg2);
+				// Get the correct sort descriptor and sort it
+				String comparatorString = (String)sortSpinner.getItemAtPosition(arg2);
+				Comparator<Deal> compartor = DealsComparatorFactory.getDealsComparator(comparatorString);
+				dealsAdapter.sort(compartor);
 			}
 
 			@Override
 			public void onNothingSelected(AdapterView<?> arg0) {
-//				size = (String)sortSpinner.getItemAtPosition(0);
+				// TODO Auto-generated method stub
 			}
 
 		});

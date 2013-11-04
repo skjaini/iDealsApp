@@ -118,6 +118,7 @@ int string common_google_play_services_update_title 0x7f060007
 int string common_signin_button_text 0x7f060011
 int string common_signin_button_text_long 0x7f060012
 int string hello_world 0x7f06001b
+int string string_deals 0x7f060020
 int string string_filter 0x7f06001f
 int string title_activity_deal_detail 0x7f06001d
 int string title_activity_deals_home 0x7f06001e

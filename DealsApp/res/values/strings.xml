@@ -16,5 +16,6 @@
         <item>Deals List</item>
     </string-array>
         <string name="string_filter">Filter</string>
+        <string name="string_deals">Deals</string>
 
 </resources>

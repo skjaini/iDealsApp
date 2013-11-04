@@ -14,19 +14,19 @@
     <TextView
         android:id="@+id/textView1"
         android:layout_width="wrap_content"
-        android:layout_height="30dp"
+        android:layout_height="wrap_content"
         android:layout_alignBottom="@+id/sortSpinner"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
         android:layout_toLeftOf="@+id/sortSpinner"
         android:gravity="center"
-        android:text="Large Text"
+        android:text="@string/string_deals"
         android:textAppearance="?android:attr/textAppearanceMedium" />
 
     <Spinner
         android:id="@+id/sortSpinner"
-        android:layout_width="150dp"
-        android:layout_height="30dp"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
         android:entries="@array/sort" />
