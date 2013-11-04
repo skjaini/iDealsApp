@@ -26,7 +26,7 @@ public class DealsAdapter extends ArrayAdapter<Deal> {
 	    	LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 	    	view = inflater.inflate(R.layout.deal_item, null);
 	    }
-	     
+	    
         Deal deal = getItem(position);
         
         ImageView imageView = (ImageView) view.findViewById(R.id.ivStoreImage);

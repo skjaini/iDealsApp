@@ -10,7 +10,10 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.Spinner;
+import android.widget.AdapterView.OnItemSelectedListener;
 
 import com.codepath.dealsapp.DealsAdapter;
 import com.codepath.dealsapp.R;
@@ -22,6 +25,7 @@ public class DealsListFragment extends Fragment {
 	OnDealSelectedListener mListener;
 	private ArrayList<Deal> deals = new ArrayList<Deal>();
 	DealsAdapter dealsAdapter;
+	Spinner sortSpinner;
 	ListView lvDeals;
 
 	@Override
@@ -39,6 +43,22 @@ public class DealsListFragment extends Fragment {
 
 		lvDeals = (ListView) view.findViewById(R.id.lvDeals);
 		lvDeals.setAdapter(dealsAdapter);
+		
+		sortSpinner = (Spinner) view.findViewById(R.id.sortSpinner);
+		sortSpinner.setOnItemSelectedListener(new OnItemSelectedListener() {
+
+			@Override
+			public void onItemSelected(AdapterView<?> arg0, View arg1,
+					int arg2, long arg3) {
+//				size = (String)sortSpinner.getItemAtPosition(arg2);
+			}
+
+			@Override
+			public void onNothingSelected(AdapterView<?> arg0) {
+//				size = (String)sortSpinner.getItemAtPosition(0);
+			}
+
+		});
 		
 		return view;
 	}

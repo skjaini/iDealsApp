@@ -47,17 +47,17 @@ public class DealsHomeActivity extends FragmentActivity implements TabListener {
 		ActionBar actionBar = getActionBar();
 		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
 		actionBar.setDisplayShowTitleEnabled(true);
-		Tab tabHome = actionBar.newTab().setText("List")
+		Tab tabList= actionBar.newTab().setText("List")
 				.setTag("DealsListFragment").setIcon(R.drawable.ic_action_list)
 				.setTabListener(this);
 
-		Tab tabMentions = actionBar.newTab().setText("Map")
+		Tab tabMap = actionBar.newTab().setText("Map")
 				.setTag("DealsMapFragment").setIcon(R.drawable.ic_action_map)
 				.setTabListener(this);
 
-		actionBar.addTab(tabHome);
-		actionBar.addTab(tabMentions);
-		actionBar.selectTab(tabHome);
+		actionBar.addTab(tabList);
+		actionBar.addTab(tabMap);
+		actionBar.selectTab(tabList);
 	}
 
 	@Override
