@@ -49,14 +49,14 @@ public class Deal {
 	private JSONObject jsonObject;
 
 	public String getString(String name) {
-        try {
-            return jsonObject.getString(name);
-        } catch (JSONException e) {
-            e.printStackTrace();
-            return null;
-        }
-    }
-	
+		try {
+			return jsonObject.getString(name);
+		} catch (JSONException e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+
 	public String getAffiliate() {
 		return getString("affiliate");
 	}
@@ -380,7 +380,7 @@ public class Deal {
 
 		for (int i = 0; i < jsonArray.length(); i++) {
 			JSONObject dealJson = null;
-			
+
 			try {
 				dealJson = jsonArray.getJSONObject(i);
 			} catch (Exception e) {
