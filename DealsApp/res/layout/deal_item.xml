@@ -2,6 +2,11 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_marginLeft="6dp"
+    android:layout_marginRight="6dp"
+	android:layout_marginTop="2dp"
+	android:layout_marginBottom="2dp"
+	android:background="@drawable/bg_card"
     android:orientation="horizontal" >
 
     <ImageView
@@ -9,17 +14,18 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
-            android:layout_marginTop="10dp"
-            android:src="@android:drawable/screen_background_light_transparent" />
-    
+            android:layout_marginTop="6dp"
+            android:layout_marginBottom="6dp"
+            android:src="@android:drawable/screen_background_light_transparent" />   
+            
     <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:layout_marginTop="5dp"
+            android:layout_marginTop="2dp"
             android:layout_marginRight="10dp"
             android:layout_marginLeft="10dp"
-            android:layout_marginBottom="15dp">
+            android:layout_marginBottom="2dp">
         
         <TextView
                 android:id="@+id/tvTitle"
@@ -27,22 +33,38 @@
                 android:layout_height="wrap_content"
                 android:text="$49 for Exterior and Interior Car Detailing by Hand ($149 Value)" 
                 android:layout_marginBottom="5dp"
-                android:textColor="#FFFFFF" />
+                android:textSize="12sp"
+                android:height="30dp"
+                android:textColor="#001A50" />
+
+        <TextView
+                android:id="@+id/tvStoreName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="3dp"
+                android:layout_marginBottom="5dp"
+                android:height="30dp"
+                android:layout_below="@+id/tvTitle"
+                android:layout_alignParentLeft="true"
+        		android:text="at Store Name"
+        		android:textColor="#000"
+        		android:textSize="10dp" />
         
         <TextView
                 android:id="@+id/tvDealSource"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginRight="3dp"
-                android:layout_marginBottom="5dp"
-                android:layout_below="@+id/tvTitle"
+                android:layout_marginRight="2dp"
+                android:layout_marginBottom="2dp"
+                android:layout_below="@+id/tvStoreName"
                 android:layout_alignParentRight="true"
-        		android:text="from GrubHub.com"
-        		android:textSize="10dp" />
+        		android:text="GrubHub.com"
+        		android:textSize="9dp" />
+        
           
         <RelativeLayout
     			android:layout_width="fill_parent"
-   				android:layout_height="wrap_content"   
+   				android:layout_height="wrap_content"
   				android:orientation="horizontal"
   				android:layout_below="@+id/tvDealSource"
   				android:background="#F5F5F5">
@@ -52,7 +74,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
 	        	android:text="Posted: MM/DD/YY"
-    	    	android:textSize="10dp" />
+    	    	android:textSize="8dp" />
  
         	<TextView
                 android:id="@+id/tvExpiryDate"
@@ -61,11 +83,9 @@
                 android:layout_alignParentRight="true"
                 android:layout_marginLeft="3dp"
         		android:text="Expires: MM/DD/YY"
-        		android:textSize="10dp"/>
+        		android:textSize="8dp"/>
         	
-           
         </RelativeLayout>
     </RelativeLayout>
-
-
+	
 </LinearLayout>

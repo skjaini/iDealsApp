@@ -8,4 +8,15 @@
     <string name="title_activity_deal_detail">DealDetailActivity</string>
     <string name="title_activity_deals_home">DealsHomeActivity</string>
 
+    <string name="nav_filter">Filter Deals By Category:</string>
+    <string-array name="categories_array">
+        <item>All Deals</item>
+        <item>Restaurants</item>
+        <item>Entertainment</item>
+        <item>Beauty/Spa</item>
+        <item>Shopping</item>
+        <item>Travel</item>
+    </string-array>
+    <string name="drawer_open">Open navigation drawer</string>
+    <string name="drawer_close">Close navigation drawer</string>
 </resources>
