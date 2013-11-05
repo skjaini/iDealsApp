@@ -7,5 +7,15 @@
     <string name="title_activity_deals_map">DealsMapActivity</string>
     <string name="title_activity_deal_detail">DealDetailActivity</string>
     <string name="title_activity_deals_home">DealsHomeActivity</string>
+    
+    <string-array name="sort">
+        <item>Expiring Soon</item>
+        <item>Recently Added</item>
+        <item>Closest Deal</item>
+        <item>Deal Savings</item>
+        <item>Deals List</item>
+    </string-array>
+        <string name="string_filter">Filter</string>
+        <string name="string_deals">Deals</string>
 
 </resources>
