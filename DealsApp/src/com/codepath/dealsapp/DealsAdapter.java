@@ -107,8 +107,8 @@ public class DealsAdapter extends ArrayAdapter<Deal> {
         TextView tvStoreName = (TextView) view.findViewById(R.id.tvStoreName);
         tvStoreName.setText("at "+deal.getName());
         
-        TextView postedDate = (TextView) view.findViewById(R.id.tvPostedDate);
-        postedDate.setText("Posted: "+deal.getPostDate());
+        // TextView postedDate = (TextView) view.findViewById(R.id.tvPostedDate);
+        // postedDate.setText("Posted: "+deal.getPostDate());
         
         TextView expiryDate = (TextView) view.findViewById(R.id.tvExpiryDate);
         expiryDate.setText("Expires: " +deal.getExpirationDate());

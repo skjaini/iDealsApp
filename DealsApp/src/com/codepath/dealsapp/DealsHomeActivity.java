@@ -187,7 +187,7 @@ public class DealsHomeActivity extends FragmentActivity implements TabListener, 
 		ActionBar actionBar = getActionBar();
 		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
 		actionBar.setDisplayShowTitleEnabled(true);
-		tabList = actionBar.newTab().setText("List")
+		tabList = actionBar.newTab().setText("Deals")
 				.setTag("DealsListFragment").setIcon(R.drawable.ic_action_list)
 				.setTabListener(this);
 
