@@ -23,7 +23,6 @@ import android.widget.ListView;
 import com.codepath.dealsapp.DealDetailActivity;
 import com.codepath.dealsapp.DealsAdapter;
 import com.codepath.dealsapp.R;
-import com.codepath.dealsapp.SimpleGestureFilter;
 import com.codepath.dealsapp.model.Deal;
 import com.codepath.dealsapp.model.DealManager;
 import com.google.android.gms.location.LocationClient;

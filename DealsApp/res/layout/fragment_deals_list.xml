@@ -11,6 +11,5 @@
         android:layout_alignParentLeft="true"
         android:divider="@null" >
     </ListView>
-
-
+    
 </RelativeLayout>

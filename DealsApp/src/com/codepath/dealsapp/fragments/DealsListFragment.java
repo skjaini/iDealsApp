@@ -56,7 +56,7 @@ public class DealsListFragment extends ListFragment {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 		      Bundle savedInstanceState) {
 		View view = inflater.inflate(R.layout.fragment_deals_list, container, false);
-
+		
 		String fontPath = "fonts/HelveticaNeueMedium.ttf";
         Typeface typeFace = Typeface.createFromAsset(getActivity().getAssets(), fontPath);
         
@@ -74,7 +74,6 @@ public class DealsListFragment extends ListFragment {
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
-		//setListShown(false);
 	}
 	
 	@Override
@@ -120,7 +119,6 @@ public class DealsListFragment extends ListFragment {
 				dealManager.getDeals().clear();
 				dealManager.addDeals(Deal.fromJSONArray(jsonArray));
 				dealsAdapter.notifyDataSetChanged();
-			//	setListShown(true);
 			}
 		});
 	}
