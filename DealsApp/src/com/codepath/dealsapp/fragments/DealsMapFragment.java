@@ -23,6 +23,7 @@ import android.widget.ListView;
 import com.codepath.dealsapp.DealDetailActivity;
 import com.codepath.dealsapp.DealsAdapter;
 import com.codepath.dealsapp.R;
+import com.codepath.dealsapp.SimpleGestureFilter;
 import com.codepath.dealsapp.model.Deal;
 import com.codepath.dealsapp.model.DealManager;
 import com.google.android.gms.location.LocationClient;
@@ -72,7 +73,6 @@ public class DealsMapFragment extends Fragment {
 			// fm.executePendingTransactions();
 		}
 		
-		
 	}
 	
 	@Override
@@ -84,7 +84,7 @@ public class DealsMapFragment extends Fragment {
 			
 			LatLng latLng = new LatLng(37.7709, -122.404);
 			map.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 16));
-			map.animateCamera(CameraUpdateFactory.zoomTo(13), 2000, null);
+			map.animateCamera(CameraUpdateFactory.zoomTo(14), 2000, null);
 
 			map.setOnInfoWindowClickListener(new OnInfoWindowClickListener() {
 
@@ -119,7 +119,7 @@ public class DealsMapFragment extends Fragment {
 		client.get(requestUrl, new JsonHttpResponseHandler() {
 			@Override
 			public void onSuccess(JSONArray jsonArray) {
-				Log.d("DEBUG", "fetchDeals jsonArray size:" + jsonArray.length());
+				Log.d("DEBUG", "map fetchDeals jsonArray size:" + jsonArray.length());
 
 				map.clear();
 				for (int i = 0; i < jsonArray.length(); i++) {
@@ -143,8 +143,8 @@ public class DealsMapFragment extends Fragment {
 						e.printStackTrace();
 					}
 					
-					Log.d("DEBUG", "lat:"+latitude+" lon:"+longitude+" title:"+dealTitle);
-					drawMarker(i, latitude, longitude, dealTitle);
+					// Log.d("DEBUG", "lat:"+latitude+" lon:"+longitude+" title:"+dealTitle);
+					drawMarker(i, latitude, longitude, dealTitle, R.drawable.map_marker);
 				}
 				
 				
@@ -157,6 +157,39 @@ public class DealsMapFragment extends Fragment {
 		double latitude = 0;
 		double longitude = 0;
 		String dealTitle = null;
+		int catID = DealManager.getInstance().getCategoryID();
+		int mapMarker = R.drawable.map_marker;
+
+		Log.d("DEBUG", "catID:"+catID);
+		
+		switch (catID) {
+		// all deals
+		case 0 : 
+			mapMarker = R.drawable.map_marker;
+			break;
+		// restaurant
+		case 1 : 
+			mapMarker = R.drawable.map_marker;
+			break;
+		// entertainment
+		case 2 : 
+			mapMarker = R.drawable.map_marker_entertainment;
+			break;
+		// beauty
+		case 3 : 
+			mapMarker = R.drawable.map_marker_beauty;
+			break;
+		// shopping
+		case 4 :
+			mapMarker = R.drawable.map_marker_shopping;
+			break;
+		// travel
+		case 5 :
+			mapMarker = R.drawable.map_marker_travel;
+			break;
+		}
+		
+		Log.d("DEBUG", "map marker:"+mapMarker);
 		
 		map.clear();
 		
@@ -166,16 +199,16 @@ public class DealsMapFragment extends Fragment {
 			longitude = deal.getLon();
 			dealTitle = deal.getDealTitle() + " at " + deal.getName();
 			
-			drawMarker(i, latitude, longitude, dealTitle);
+			drawMarker(i, latitude, longitude, dealTitle, mapMarker);
 		}
 		
 	}
 	
-	private void drawMarker(int index, double latitude, double longitude, String title) {
+	private void drawMarker(int index, double latitude, double longitude, String title, int mapMarker) {
 		LatLng position = new LatLng(latitude, longitude);
-		
+				
 		Marker marker = map.addMarker(new MarkerOptions().anchor(0.0f, 1.0f).position(position)
-				.icon(BitmapDescriptorFactory.fromResource(R.drawable.map_marker))
+				.icon(BitmapDescriptorFactory.fromResource(mapMarker))
 				.title(title));
 		
 		markersMap.put(marker.getId(), new Integer(index));

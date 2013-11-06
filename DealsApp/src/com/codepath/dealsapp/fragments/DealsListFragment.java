@@ -1,7 +1,5 @@
 package com.codepath.dealsapp.fragments;
 
-import java.util.ArrayList;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -76,6 +74,7 @@ public class DealsListFragment extends ListFragment {
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
+		//setListShown(false);
 	}
 	
 	@Override
@@ -117,10 +116,11 @@ public class DealsListFragment extends ListFragment {
 				*/
 
 				Log.d("DEBUG", "size of response json:"+jsonArray.length());
-				
+				dealManager.setCategoryID(categoryID);
 				dealManager.getDeals().clear();
 				dealManager.addDeals(Deal.fromJSONArray(jsonArray));
 				dealsAdapter.notifyDataSetChanged();
+			//	setListShown(true);
 			}
 		});
 	}

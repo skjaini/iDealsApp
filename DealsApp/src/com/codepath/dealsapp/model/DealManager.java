@@ -6,6 +6,7 @@ import java.util.List;
 public class DealManager {
 
 	private static final DealManager _instance = new DealManager();  
+	private int categoryID = 0;
 	
 	private List<Deal> deals = new ArrayList<Deal>();	
 	
@@ -32,5 +33,15 @@ public class DealManager {
 	public int getSize() {
 		return deals.size();
 	}
+
+	public int getCategoryID() {
+		return categoryID;
+	}
+
+	public void setCategoryID(int categoryID) {
+		this.categoryID = categoryID;
+	}
+	
+	
 	
 }

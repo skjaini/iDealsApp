@@ -67,8 +67,13 @@ int drawable ic_plusone_small_off_client 0x7f020024
 int drawable ic_plusone_standard_off_client 0x7f020025
 int drawable ic_plusone_tall_off_client 0x7f020026
 int drawable map_marker 0x7f020027
-int drawable round_button 0x7f020028
-int drawable splash_screen 0x7f020029
+int drawable map_marker_beauty 0x7f020028
+int drawable map_marker_entertainment 0x7f020029
+int drawable map_marker_restaurant 0x7f02002a
+int drawable map_marker_shopping 0x7f02002b
+int drawable map_marker_travel 0x7f02002c
+int drawable round_button 0x7f02002d
+int drawable splash_screen 0x7f02002e
 int id action_location 0x7f05001a
 int id action_settings 0x7f050019
 int id btnRating 0x7f050016
