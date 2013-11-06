@@ -1,9 +1,14 @@
 package com.codepath.dealsapp.fragments;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.content.Intent;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.Bundle;
@@ -15,14 +20,19 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 
+import com.codepath.dealsapp.DealDetailActivity;
 import com.codepath.dealsapp.DealsAdapter;
 import com.codepath.dealsapp.R;
+import com.codepath.dealsapp.model.Deal;
+import com.codepath.dealsapp.model.DealManager;
 import com.google.android.gms.location.LocationClient;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.GoogleMap.OnInfoWindowClickListener;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.JsonHttpResponseHandler;
@@ -36,7 +46,9 @@ public class DealsMapFragment extends Fragment {
 	DealsAdapter dealsAdapter;
 	ListView lvDeals;
 	private int categoryID = 0;
-
+	DealManager dealManager;
+	Map<String, Integer> markersMap = new HashMap<String, Integer>();
+	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -71,11 +83,21 @@ public class DealsMapFragment extends Fragment {
 	        map.setMyLocationEnabled(true);
 			
 			LatLng latLng = new LatLng(37.7709, -122.404);
-			map.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 13));
-		}
+			map.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 16));
+			map.animateCamera(CameraUpdateFactory.zoomTo(13), 2000, null);
 
-		int categoryID = getArguments().getInt("categoryID", 0);
-		loadDeals(categoryID);
+			map.setOnInfoWindowClickListener(new OnInfoWindowClickListener() {
+
+		        @Override
+		        public void onInfoWindowClick(Marker marker) {
+		        	Intent i = new Intent(getView().getContext(), DealDetailActivity.class);
+		    		i.putExtra("position", markersMap.get(marker.getId()));
+		    		startActivity(i);
+		        }
+		    });
+			
+			putDealsOnMap();
+		}
 	}
 
 	public void loadDeals(int id) {
@@ -97,8 +119,9 @@ public class DealsMapFragment extends Fragment {
 		client.get(requestUrl, new JsonHttpResponseHandler() {
 			@Override
 			public void onSuccess(JSONArray jsonArray) {
-//				Log.d("DEBUG", "fetchDeals jsonArray:" + jsonArray.toString());
+				Log.d("DEBUG", "fetchDeals jsonArray size:" + jsonArray.length());
 
+				map.clear();
 				for (int i = 0; i < jsonArray.length(); i++) {
 					JSONObject dealJson = null;
 					
@@ -117,12 +140,11 @@ public class DealsMapFragment extends Fragment {
 						longitude = dealJson.getDouble("lon");
 						dealTitle = dealJson.getString("dealTitle");
 					} catch (JSONException e) {
-						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
 					
-					// Log.d("DEBUG", "lat:"+latitude+" lon:"+longitude+" title:"+dealTitle);
-					drawMarker(latitude, longitude, dealTitle);
+					Log.d("DEBUG", "lat:"+latitude+" lon:"+longitude+" title:"+dealTitle);
+					drawMarker(i, latitude, longitude, dealTitle);
 				}
 				
 				
@@ -130,13 +152,33 @@ public class DealsMapFragment extends Fragment {
 		});
 	}
 	
-	private void drawMarker(double latitude, double longitude, String title) {
+	public void putDealsOnMap() {
+		ArrayList<Deal> deals = (ArrayList<Deal>) DealManager.getInstance().getDeals();
+		double latitude = 0;
+		double longitude = 0;
+		String dealTitle = null;
+		
 		map.clear();
+		
+		for(int i=0; i<deals.size(); i++) {
+			Deal deal = deals.get(i);
+			latitude = deal.getLat();
+			longitude = deal.getLon();
+			dealTitle = deal.getDealTitle() + " at " + deal.getName();
+			
+			drawMarker(i, latitude, longitude, dealTitle);
+		}
+		
+	}
+	
+	private void drawMarker(int index, double latitude, double longitude, String title) {
 		LatLng position = new LatLng(latitude, longitude);
 		
-		map.addMarker(new MarkerOptions().anchor(0.0f, 1.0f).position(position)
+		Marker marker = map.addMarker(new MarkerOptions().anchor(0.0f, 1.0f).position(position)
 				.icon(BitmapDescriptorFactory.fromResource(R.drawable.map_marker))
 				.title(title));
+		
+		markersMap.put(marker.getId(), new Integer(index));
 	}
 
 }

@@ -19,73 +19,85 @@
             android:src="@android:drawable/screen_background_light_transparent" />   
             
     <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_marginTop="2dp"
-            android:layout_marginRight="10dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginBottom="2dp">
-        
-        <TextView
-                android:id="@+id/tvTitle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="$49 for Exterior and Interior Car Detailing by Hand ($149 Value)" 
-                android:layout_marginBottom="5dp"
-                android:textSize="12sp"
-                android:height="30dp"
-                android:textColor="#001A50" />
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="2dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="2dp"
+        android:orientation="vertical" >
 
         <TextView
-                android:id="@+id/tvStoreName"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginRight="3dp"
-                android:layout_marginBottom="5dp"
-                android:height="30dp"
-                android:layout_below="@+id/tvTitle"
-                android:layout_alignParentLeft="true"
-        		android:text="at Store Name"
-        		android:textColor="#000"
-        		android:textSize="10dp" />
-        
+            android:id="@+id/tvTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp"
+            android:height="30dp"
+            android:text="$49 for Exterior and Interior Car Detailing by Hand ($149 Value)"
+            android:textColor="#001A50"
+            android:textSize="12sp" />
+
         <TextView
-                android:id="@+id/tvDealSource"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginRight="2dp"
-                android:layout_marginBottom="2dp"
-                android:layout_below="@+id/tvStoreName"
-                android:layout_alignParentRight="true"
-        		android:text="GrubHub.com"
-        		android:textSize="9dp" />
-        
-          
+            android:id="@+id/tvStoreName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@+id/tvTitle"
+            android:layout_marginBottom="5dp"
+            android:layout_marginRight="3dp"
+            android:height="30dp"
+            android:text="at Store Name"
+            android:textColor="#000"
+            android:textSize="10dp" />
+
+        <TextView
+            android:id="@+id/tvDealSource"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_below="@+id/tvStoreName"
+            android:layout_marginBottom="2dp"
+            android:layout_marginRight="2dp"
+            android:text="GrubHub.com"
+            android:textSize="9dp" />
+
         <RelativeLayout
-    			android:layout_width="fill_parent"
-   				android:layout_height="wrap_content"
-  				android:orientation="horizontal"
-  				android:layout_below="@+id/tvDealSource"
-  				android:background="#F5F5F5">
-  			
-        	<TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tvDealSource"
+            android:background="#F5F5F5"
+            android:orientation="horizontal" >
+
+            <TextView
                 android:id="@+id/tvPostedDate"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-	        	android:text="Posted: MM/DD/YY"
-    	    	android:textSize="8dp" />
- 
-        	<TextView
+                android:text="Posted: MM/DD/YY"
+                android:textSize="8dp" />
+
+            <TextView
                 android:id="@+id/tvExpiryDate"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:layout_marginLeft="3dp"
-        		android:text="Expires: MM/DD/YY"
-        		android:textSize="8dp"/>
-        	
+                android:text="Expires: MM/DD/YY"
+                android:textSize="8dp" />
         </RelativeLayout>
+
+        <Button
+            android:id="@+id/btnRating"
+            android:layout_width="28sp"
+            android:layout_height="28sp"
+            android:layout_alignBaseline="@+id/tvStoreName"
+            android:layout_alignBottom="@+id/tvStoreName"
+            android:layout_toRightOf="@+id/tvStoreName"
+            android:background="@android:drawable/btn_star_big_on"
+            android:gravity="center_vertical|center_horizontal"
+            android:text="5"
+            android:textColor="#000"
+            android:textSize="12sp" />
+
     </RelativeLayout>
 	
 </LinearLayout>

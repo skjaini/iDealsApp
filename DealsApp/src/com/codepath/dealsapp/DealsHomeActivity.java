@@ -4,6 +4,7 @@ import android.app.ActionBar;
 import android.app.ActionBar.Tab;
 import android.app.ActionBar.TabListener;
 import android.app.FragmentTransaction;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.support.v4.app.ActionBarDrawerToggle;
@@ -116,6 +117,7 @@ public class DealsHomeActivity extends FragmentActivity implements TabListener, 
 
         // enable ActionBar app icon to behave as action to toggle nav drawer
         getActionBar().setDisplayHomeAsUpEnabled(true);
+        getActionBar().setDisplayShowHomeEnabled(true);
         getActionBar().setHomeButtonEnabled(true);
 
         // ActionBarDrawerToggle ties together the the proper interactions
@@ -138,19 +140,49 @@ public class DealsHomeActivity extends FragmentActivity implements TabListener, 
             }
         };
         mDrawerLayout.setDrawerListener(mDrawerToggle);
+        mDrawerToggle.syncState();
 	}
-	
-	private void setCategoryID(int position) {
-		categoryID = position;
-        mDrawerLayout.closeDrawer(mDrawerList);
-        
-        if(listFragment.isVisible()) {
-        	listFragment.loadDeals(categoryID);
-        } else {
-        	mapFragment.loadDeals(categoryID);
-        }
+
+    /**
+     * When using the ActionBarDrawerToggle, you must call it during
+     * onPostCreate() and onConfigurationChanged()...
+     */
+
+    @Override
+    protected void onPostCreate(Bundle savedInstanceState) {
+        super.onPostCreate(savedInstanceState);
+        // Sync the toggle state after onRestoreInstanceState has occurred.
+        mDrawerToggle.syncState();
     }
 
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        // Pass any configuration change to the drawer toggls
+        mDrawerToggle.onConfigurationChanged(newConfig);
+    }
+    
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Pass the event to ActionBarDrawerToggle, if it returns
+        // true, then it has handled the app icon touch event
+        if (mDrawerToggle.onOptionsItemSelected(item)) {
+          return true;
+        }
+        // Handle your other action bar items...
+
+        return super.onOptionsItemSelected(item);
+    }
+
+	private void setCategoryID(int position) {
+		mDrawerLayout.closeDrawer(mDrawerList);
+
+		if(categoryID != position) {
+			categoryID = position;
+			getActionBar().selectTab(tabList);
+			listFragment.loadDeals(categoryID);
+		}
+    }
 	
 	private void setupNavigationTabs() {
 		ActionBar actionBar = getActionBar();

@@ -13,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -115,6 +116,9 @@ public class DealsAdapter extends ArrayAdapter<Deal> {
         TextView tvDealSource = (TextView) view.findViewById(R.id.tvDealSource);
         tvDealSource.setText(deal.getDealSource());
 		
+        Button tvRating = (Button) view.findViewById(R.id.btnRating);
+        tvRating.setText(Integer.toString(deal.getRating()));
+        
         return view;
 	}
 }

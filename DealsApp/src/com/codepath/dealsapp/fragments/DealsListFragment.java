@@ -7,6 +7,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
@@ -16,19 +17,20 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 
+import com.codepath.dealsapp.DealDetailActivity;
 import com.codepath.dealsapp.DealsAdapter;
 import com.codepath.dealsapp.R;
 import com.codepath.dealsapp.YelpClient;
 import com.codepath.dealsapp.model.Deal;
+import com.codepath.dealsapp.model.DealManager;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.JsonHttpResponseHandler;
 
 public class DealsListFragment extends ListFragment {
-	private ArrayList<Deal> deals = new ArrayList<Deal>();
 	DealsAdapter dealsAdapter;
 	ListView lvDeals;
 	private int categoryID = 0;
-	OnDealSelectedListener mCallback;
+	DealManager dealManager;
 
     // Container Activity must implement this interface
     public interface OnDealSelectedListener {
@@ -38,21 +40,13 @@ public class DealsListFragment extends ListFragment {
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
-        
-        // This makes sure that the container activity has implemented
-        // the callback interface. If not, it throws an exception
-        try {
-            mCallback = (OnDealSelectedListener) activity;
-        } catch (ClassCastException e) {
-            throw new ClassCastException(activity.toString()
-                    + " must implement OnHeadlineSelectedListener");
-        }
     }
 	
     @Override
     public void onListItemClick(ListView l, View v, int position, long id) {
-        // Send the event to the host activity
-        mCallback.onDealSelected(position);
+    	Intent i = new Intent(getView().getContext(), DealDetailActivity.class);
+		i.putExtra("position", position);
+		startActivity(i);
     }
     
 	@Override
@@ -66,12 +60,13 @@ public class DealsListFragment extends ListFragment {
 		View view = inflater.inflate(R.layout.fragment_deals_list, container, false);
 
 		String fontPath = "fonts/HelveticaNeueMedium.ttf";
-        Typeface tf = Typeface.createFromAsset(getActivity().getAssets(), fontPath);
+        Typeface typeFace = Typeface.createFromAsset(getActivity().getAssets(), fontPath);
         
-		ArrayList<Deal> tmpDeals = new ArrayList<Deal>();
-		dealsAdapter = new DealsAdapter(getActivity(), tmpDeals, tf);
+        dealManager = DealManager.getInstance();
+        dealsAdapter = new DealsAdapter(getActivity(), dealManager.getDeals(), typeFace);
+		
+        dealManager.getDeals().clear();
         
-		// lvDeals = (ListView) view.findViewById(R.id.lvDeals);
 		lvDeals = (ListView) view.findViewById(android.R.id.list);
 		lvDeals.setAdapter(dealsAdapter);
 		
@@ -81,15 +76,19 @@ public class DealsListFragment extends ListFragment {
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
-
 	}
 	
 	@Override
 	public void onResume() {
 		super.onResume();
 		
-		int categoryID = getArguments().getInt("categoryID", 0);
-		loadDeals(categoryID);
+		int id = getArguments().getInt("categoryID", 0);
+		
+		if(categoryID == id && dealManager.getSize() > 0) {
+			dealsAdapter.notifyDataSetChanged();
+		} else {
+			loadDeals(id);
+		}
 	}
 	
 	public void loadDeals(int id) {
@@ -103,7 +102,27 @@ public class DealsListFragment extends ListFragment {
 
 		Log.d("DEBUG", "list fragment requestUrl:"+requestUrl);
 		fetchDeals(requestUrl);
-		// doYelpSearch();
+	}
+	
+	public void fetchDeals(String requestUrl) {
+		AsyncHttpClient client = new AsyncHttpClient();
+		client.get(requestUrl, new JsonHttpResponseHandler() {
+			@Override
+			public void onSuccess(JSONArray jsonArray) {
+				/*
+				deals.clear();
+				deals = Deal.fromJSONArray(jsonArray);
+				dealsAdapter.clear();
+				dealsAdapter.addAll(deals);
+				*/
+
+				Log.d("DEBUG", "size of response json:"+jsonArray.length());
+				
+				dealManager.getDeals().clear();
+				dealManager.addDeals(Deal.fromJSONArray(jsonArray));
+				dealsAdapter.notifyDataSetChanged();
+			}
+		});
 	}
 	
 	public void doYelpSearch() {
@@ -127,19 +146,5 @@ public class DealsListFragment extends ListFragment {
 		});
 	}
 	
-	public void fetchDeals(String requestUrl) {
-		AsyncHttpClient client = new AsyncHttpClient();
-		client.get(requestUrl, new JsonHttpResponseHandler() {
-			@Override
-			public void onSuccess(JSONArray jsonArray) {
-//				Log.d("DEBUG", "fetchDeals jsonArray:" + jsonArray.toString());
-
-				deals.clear();
-				deals = Deal.fromJSONArray(jsonArray);
-				dealsAdapter.clear();
-				dealsAdapter.addAll(deals);
-			}
-		});
-	}
 
 }
