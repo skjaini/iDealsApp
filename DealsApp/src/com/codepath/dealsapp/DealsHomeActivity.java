@@ -52,6 +52,7 @@ public class DealsHomeActivity extends FragmentActivity implements TabListener, 
     Tab tabList;
     Tab tabMap;
     int categoryID = 0;
+    String zip = "94103";
     DealsListFragment listFragment;
     DealsMapFragment mapFragment;
 	
@@ -95,6 +96,10 @@ public class DealsHomeActivity extends FragmentActivity implements TabListener, 
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 Toast.makeText(getBaseContext(), "Deals around Zip: " + v.getText(), Toast.LENGTH_SHORT).show();
                 locationMenuItem.collapseActionView();
+                
+                zip = v.getText().toString();
+                getActionBar().selectTab(tabList);
+                listFragment.loadDeals(categoryID, zip);
                 return false;
             }
         });
@@ -179,7 +184,7 @@ public class DealsHomeActivity extends FragmentActivity implements TabListener, 
 		if(categoryID != position) {
 			categoryID = position;
 			getActionBar().selectTab(tabList);
-			listFragment.loadDeals(categoryID);
+			listFragment.loadDeals(categoryID, zip);
 		}
     }
 	
@@ -217,6 +222,7 @@ public class DealsHomeActivity extends FragmentActivity implements TabListener, 
 
 		Bundle args = new Bundle();
         args.putInt("categoryID", categoryID);
+        args.putString("zip", zip);
         
 		if (tab.getTag() == "DealsListFragment") {
 			listFragment = new DealsListFragment();

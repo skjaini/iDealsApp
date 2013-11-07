@@ -81,10 +81,12 @@ public class DealsMapFragment extends Fragment {
 			map = mapFragment.getMap();
 	        map.setMyLocationEnabled(true);
 			
+	        /*
 			LatLng latLng = new LatLng(37.7709, -122.404);
 			map.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 16));
 			map.animateCamera(CameraUpdateFactory.zoomTo(14), 2000, null);
-
+	        */
+	        
 			map.setOnInfoWindowClickListener(new OnInfoWindowClickListener() {
 
 		        @Override
@@ -192,6 +194,8 @@ public class DealsMapFragment extends Fragment {
 		
 		map.clear();
 		
+		moveMapCamera(deals.get(0).getLat(), deals.get(0).getLon());
+		
 		for(int i=0; i<deals.size(); i++) {
 			Deal deal = deals.get(i);
 			latitude = deal.getLat();
@@ -203,6 +207,12 @@ public class DealsMapFragment extends Fragment {
 		
 	}
 	
+	private void moveMapCamera(double lat, double lon) {
+		LatLng latLng = new LatLng(lat, lon);
+		map.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 16));
+		map.animateCamera(CameraUpdateFactory.zoomTo(14), 2000, null);
+	}
+
 	private void drawMarker(int index, double latitude, double longitude, String title, int mapMarker) {
 		LatLng position = new LatLng(latitude, longitude);
 				

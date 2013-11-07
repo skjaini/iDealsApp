@@ -28,6 +28,7 @@ public class DealsListFragment extends ListFragment {
 	DealsAdapter dealsAdapter;
 	ListView lvDeals;
 	private int categoryID = 0;
+	private String zipCode = "94103";
 	DealManager dealManager;
 
     // Container Activity must implement this interface
@@ -86,21 +87,24 @@ public class DealsListFragment extends ListFragment {
 		super.onResume();
 		
 		int id = getArguments().getInt("categoryID", 0);
+		String zip = getArguments().getString("zip", "94103");
 		
-		if(categoryID == id && dealManager.getSize() > 0) {
+		if(categoryID == id && zipCode == zip && dealManager.getSize() > 0) {
 			dealsAdapter.notifyDataSetChanged();
 		} else {
-			loadDeals(id);
+			categoryID = id;
+			zipCode = zip;
+			loadDeals(id, zip);
 		}
 	}
 	
-	public void loadDeals(int id) {
+	public void loadDeals(int id, String zip) {
 		String requestUrl;
 		categoryID = id;
 		if(categoryID < 1) {
-			requestUrl = "http://api.8coupons.com/v1/getdeals?key=b115affda61e93374155aca0aeb6adf1c8e16e46cf992bd46201021556d3b2dff5b18ee48b51c78e7ceaff54649ad4c2&zip=94103&mileradius=5&limit=10&orderby=radius";
+			requestUrl = "http://api.8coupons.com/v1/getdeals?key=b115affda61e93374155aca0aeb6adf1c8e16e46cf992bd46201021556d3b2dff5b18ee48b51c78e7ceaff54649ad4c2&zip="+zip+"&mileradius=5&limit=10&orderby=radius";
 		} else {
-			requestUrl = "http://api.8coupons.com/v1/getdeals?key=b115affda61e93374155aca0aeb6adf1c8e16e46cf992bd46201021556d3b2dff5b18ee48b51c78e7ceaff54649ad4c2&zip=94103&mileradius=5&limit=10&orderby=radius&categoryid="+categoryID;
+			requestUrl = "http://api.8coupons.com/v1/getdeals?key=b115affda61e93374155aca0aeb6adf1c8e16e46cf992bd46201021556d3b2dff5b18ee48b51c78e7ceaff54649ad4c2&zip="+zip+"&mileradius=5&limit=10&orderby=radius&categoryid="+categoryID;
 		}
 
 		Log.d("DEBUG", "list fragment requestUrl:"+requestUrl);
