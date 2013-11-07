@@ -1,12 +1,23 @@
 package com.codepath.dealsapp.model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 
-public class Deal {
+import android.graphics.Bitmap;
+
+import com.codepath.apps.utils.JsonUtils;
+
+public class Deal implements Serializable {
+	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 7823272453380566225L;
+	
+	int rating;
 	String affiliate;
 	String name;
 	String address;
@@ -46,19 +57,27 @@ public class Deal {
 	float dealPrice;
 	float dealSavings;
 	float dealDiscountPercent;
-	private JSONObject jsonObject;
 
-	public String getString(String name) {
-        try {
-            return jsonObject.getString(name);
-        } catch (JSONException e) {
-            e.printStackTrace();
-            return null;
-        }
-    }
+	Bitmap bitmap;
 	
+	public int getRating() {
+		return rating;
+	}
+
+	public void setRating(int rating) {
+		this.rating = rating;
+	}
+
+	public Bitmap getBitmap() {
+		return bitmap;
+	}
+
+	public void setBitmap(Bitmap bitmap) {
+		this.bitmap = bitmap;
+	}
+
 	public String getAffiliate() {
-		return getString("affiliate");
+		return affiliate;
 	}
 
 	public void setAffiliate(String affiliate) {
@@ -66,7 +85,7 @@ public class Deal {
 	}
 
 	public String getName() {
-		return getString("name");
+		return name;
 	}
 
 	public void setName(String name) {
@@ -170,7 +189,7 @@ public class Deal {
 	}
 
 	public String getDealSource() {
-		return getString("dealSource");
+		return dealSource;
 	}
 
 	public void setDealSource(String dealSource) {
@@ -193,8 +212,8 @@ public class Deal {
 		this.userID = userID;
 	}
 
-	public String getID() {
-		return getString("ID");
+	public long getID() {
+		return ID;
 	}
 
 	public void setID(long iD) {
@@ -202,7 +221,7 @@ public class Deal {
 	}
 
 	public String getDealTitle() {
-		return getString("dealTitle");
+		return dealTitle;
 	}
 
 	public void setDealTitle(String dealTitle) {
@@ -226,7 +245,7 @@ public class Deal {
 	}
 
 	public String getExpirationDate() {
-		return getString("expirationDate");
+		return expirationDate;
 	}
 
 	public void setExpirationDate(String expirationDate) {
@@ -234,7 +253,7 @@ public class Deal {
 	}
 
 	public String getPostDate() {
-		return getString("postDate");
+		return postDate;
 	}
 
 	public void setPostDate(String postDate) {
@@ -242,7 +261,7 @@ public class Deal {
 	}
 
 	public String getShowImage() {
-		return getString("showImage");
+		return showImage;
 	}
 
 	public void setShowImage(String showImage) {
@@ -250,7 +269,7 @@ public class Deal {
 	}
 
 	public String getShowImageStandardBig() {
-		return getString("showImageStandardBig");
+		return showImageStandardBig;
 	}
 
 	public void setShowImageStandardBig(String showImageStandardBig) {
@@ -258,7 +277,7 @@ public class Deal {
 	}
 
 	public String getShowImageStandardSmall() {
-		return getString("showImageStandardSmall");
+		return showImageStandardSmall;
 	}
 
 	public void setShowImageStandardSmall(String showImageStandardSmall) {
@@ -371,7 +390,48 @@ public class Deal {
 
 	public static Deal fromJson(JSONObject jsonObject) {
 		Deal deal = new Deal();
-		deal.jsonObject = jsonObject;
+		deal.setName(JsonUtils.getString(jsonObject, "name"));
+		deal.setAddress(JsonUtils.getString(jsonObject, "address"));
+		deal.setAddress2(JsonUtils.getString(jsonObject, "address2"));
+		deal.setAffiliate(JsonUtils.getString(jsonObject,"affiliate"));
+		deal.setCategoryID(JsonUtils.getInt(jsonObject, "categoryID"));
+		deal.setChainID(JsonUtils.getString(jsonObject, "chainID"));
+		deal.setCity(JsonUtils.getString(jsonObject, "city"));
+		deal.setDealDiscountPercent((float)JsonUtils.getDouble(jsonObject, "dealDiscountPercent"));
+		deal.setDealinfo(JsonUtils.getString(jsonObject, "dealinfo"));
+		deal.setDealOriginalPrice((float)JsonUtils.getDouble(jsonObject, "dealOriginalPrice"));
+		deal.setDealPrice((float)JsonUtils.getDouble(jsonObject, "dealPrice"));
+		deal.setDealSavings((float)JsonUtils.getDouble(jsonObject, "dealSavings"));
+		deal.setDealSource(JsonUtils.getString(jsonObject, "dealSource"));
+		deal.setDealTitle(JsonUtils.getString(jsonObject, "dealTitle"));
+		deal.setDealTypeID(JsonUtils.getInt(jsonObject, "dealTypeID"));
+		deal.setDisclaimer(JsonUtils.getString(jsonObject, "disclaimer"));
+		deal.setDistance(JsonUtils.getDouble(jsonObject, "distance"));
+		deal.setDown(JsonUtils.getString(jsonObject, "down"));
+		deal.setExpirationDate(JsonUtils.getString(jsonObject, "expirationDate"));
+		deal.setHomepage(JsonUtils.getString(jsonObject, "homepage"));
+		deal.setID(JsonUtils.getLong(jsonObject, "ID"));
+		deal.setLat(JsonUtils.getDouble(jsonObject, "lat"));
+		deal.setLon(JsonUtils.getDouble(jsonObject, "lon"));
+		deal.setPhone(JsonUtils.getString(jsonObject, "phone"));
+		deal.setPostDate(JsonUtils.getString(jsonObject, "postDate"));
+		deal.setShowImage(JsonUtils.getString(jsonObject, "showImage"));
+		deal.setShowImageStandardBig(JsonUtils.getString(jsonObject, "showImageStandardBig"));
+		deal.setShowImageStandardSmall(JsonUtils.getString(jsonObject, "showImageStandardSmall"));
+		deal.setShowLogo(JsonUtils.getString(jsonObject, "showLogo"));
+		deal.setState(JsonUtils.getString(jsonObject, "state"));
+		deal.setStoreID(JsonUtils.getString(jsonObject, "storeID"));
+		deal.setStoreURL(JsonUtils.getString(jsonObject, "storeURL"));
+		deal.setSubcategoryID(JsonUtils.getInt(jsonObject, "subcategoryID"));
+		deal.setTotalDealsInThisStore(JsonUtils.getInt(jsonObject, "totalDealsInThisStore"));
+		deal.setUp(JsonUtils.getString(jsonObject, "up"));
+		deal.setURL(JsonUtils.getString(jsonObject, "URL"));
+		deal.setUser(JsonUtils.getString(jsonObject, "user"));
+		deal.setUserID(JsonUtils.getString(jsonObject, "userID"));
+		deal.setZIP(JsonUtils.getString(jsonObject, "ZIP"));
+		
+		deal.setRating((int)Math.round(Math.random() * 100)%5+1);
+		
 		return deal;
 	}
 

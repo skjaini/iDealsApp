@@ -1,33 +1,54 @@
 package com.codepath.dealsapp.fragments;
 
-import android.location.Criteria;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import android.content.Intent;
 import android.location.Location;
-import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ListView;
 
+import com.codepath.dealsapp.DealDetailActivity;
+import com.codepath.dealsapp.DealsAdapter;
 import com.codepath.dealsapp.R;
+import com.codepath.dealsapp.model.Deal;
+import com.codepath.dealsapp.model.DealManager;
 import com.google.android.gms.location.LocationClient;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.GoogleMap.OnInfoWindowClickListener;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.loopj.android.http.AsyncHttpClient;
+import com.loopj.android.http.JsonHttpResponseHandler;
 
 public class DealsMapFragment extends Fragment {
-	static final LatLng HAMBURG = new LatLng(53.558, 9.927);
-	static final LatLng KIEL = new LatLng(53.551, 9.993);
 	private SupportMapFragment mapFragment;
 	private GoogleMap map;
 	Location mCurrentLocation;
 	LocationClient mLocationClient;
 	LocationManager locationManager;
-
+	DealsAdapter dealsAdapter;
+	ListView lvDeals;
+	private int categoryID = 0;
+	DealManager dealManager;
+	Map<String, Integer> markersMap = new HashMap<String, Integer>();
+	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -50,6 +71,7 @@ public class DealsMapFragment extends Fragment {
 			fm.beginTransaction().replace(R.id.map, mapFragment).commit();
 			// fm.executePendingTransactions();
 		}
+		
 	}
 	
 	@Override
@@ -58,68 +80,147 @@ public class DealsMapFragment extends Fragment {
 		if (map == null) {
 			map = mapFragment.getMap();
 	        map.setMyLocationEnabled(true);
+			
+	        /*
+			LatLng latLng = new LatLng(37.7709, -122.404);
+			map.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 16));
+			map.animateCamera(CameraUpdateFactory.zoomTo(14), 2000, null);
+	        */
 	        
-	        // Getting LocationManager object from System Service LOCATION_SERVICE
-	        LocationManager locationManager = (LocationManager) getActivity().getSystemService(getActivity().LOCATION_SERVICE);
+			map.setOnInfoWindowClickListener(new OnInfoWindowClickListener() {
 
-	        // Creating a criteria object to retrieve provider
-	        Criteria criteria = new Criteria();
-
-	        // Getting the name of the best provider
-	        String provider = locationManager.getBestProvider(criteria, true);
-
-	        // Getting Current Location
-	        Location location = locationManager.getLastKnownLocation(provider);
-	        
-	        LocationListener locationListener = new LocationListener() {
-	        	public void onLocationChanged(Location location) {
-					// redraw the marker when get location update.
-					drawMarker(location);
-
-					// Getting latitude of the current location
-					double latitude = location.getLatitude();
-
-					// Getting longitude of the current location
-					double longitude = location.getLongitude();
-
-					// Creating a LatLng object for the current location
-					LatLng latLng = new LatLng(latitude, longitude);
-
-					// Showing the current location in Google Map
-					map.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 11));
-	            }
-
-				@Override
-				public void onProviderDisabled(String provider) {
-					// TODO Auto-generated method stub
-					
-				}
-
-				@Override
-				public void onProviderEnabled(String provider) {
-					// TODO Auto-generated method stub
-					
-				}
-
-				@Override
-				public void onStatusChanged(String provider, int status,
-						Bundle extras) {
-					// TODO Auto-generated method stub
-					
-				}
-	        };
-	        
-	        locationManager.requestLocationUpdates(provider, 20000, 0, locationListener);
+		        @Override
+		        public void onInfoWindowClick(Marker marker) {
+		        	Intent i = new Intent(getView().getContext(), DealDetailActivity.class);
+		    		i.putExtra("position", markersMap.get(marker.getId()));
+		    		startActivity(i);
+		        }
+		    });
+			
+			putDealsOnMap();
 		}
 	}
 
-	private void drawMarker(Location location) {
+	public void loadDeals(int id) {
+		String requestUrl;
+		categoryID = id;
+		
+		if(categoryID < 1) {
+			requestUrl = "http://api.8coupons.com/v1/getdeals?key=b115affda61e93374155aca0aeb6adf1c8e16e46cf992bd46201021556d3b2dff5b18ee48b51c78e7ceaff54649ad4c2&zip=94103&mileradius=5&limit=10&orderby=radius";
+		} else {
+			requestUrl = "http://api.8coupons.com/v1/getdeals?key=b115affda61e93374155aca0aeb6adf1c8e16e46cf992bd46201021556d3b2dff5b18ee48b51c78e7ceaff54649ad4c2&zip=94103&mileradius=5&limit=10&orderby=radius&categoryid="+categoryID;
+		}
+
+		Log.d("DEBUG", "map fragment requestUrl:"+requestUrl);
+		fetchDeals(requestUrl);
+	}
+	
+	public void fetchDeals(String requestUrl) {
+		AsyncHttpClient client = new AsyncHttpClient();
+		client.get(requestUrl, new JsonHttpResponseHandler() {
+			@Override
+			public void onSuccess(JSONArray jsonArray) {
+				Log.d("DEBUG", "map fetchDeals jsonArray size:" + jsonArray.length());
+
+				map.clear();
+				for (int i = 0; i < jsonArray.length(); i++) {
+					JSONObject dealJson = null;
+					
+					try {
+						dealJson = jsonArray.getJSONObject(i);
+					} catch (Exception e) {
+						e.printStackTrace();
+						continue;
+					}
+
+					double latitude = 0;
+					double longitude = 0;
+					String dealTitle = null;
+					try {
+						latitude = dealJson.getDouble("lat");
+						longitude = dealJson.getDouble("lon");
+						dealTitle = dealJson.getString("dealTitle");
+					} catch (JSONException e) {
+						e.printStackTrace();
+					}
+					
+					// Log.d("DEBUG", "lat:"+latitude+" lon:"+longitude+" title:"+dealTitle);
+					drawMarker(i, latitude, longitude, dealTitle, R.drawable.map_marker);
+				}
+				
+				
+			}
+		});
+	}
+	
+	public void putDealsOnMap() {
+		ArrayList<Deal> deals = (ArrayList<Deal>) DealManager.getInstance().getDeals();
+		double latitude = 0;
+		double longitude = 0;
+		String dealTitle = null;
+		int catID = DealManager.getInstance().getCategoryID();
+		int mapMarker = R.drawable.map_marker;
+
+		Log.d("DEBUG", "catID:"+catID);
+		
+		switch (catID) {
+		// all deals
+		case 0 : 
+			mapMarker = R.drawable.map_marker;
+			break;
+		// restaurant
+		case 1 : 
+			mapMarker = R.drawable.map_marker;
+			break;
+		// entertainment
+		case 2 : 
+			mapMarker = R.drawable.map_marker_entertainment;
+			break;
+		// beauty
+		case 3 : 
+			mapMarker = R.drawable.map_marker_beauty;
+			break;
+		// shopping
+		case 4 :
+			mapMarker = R.drawable.map_marker_shopping;
+			break;
+		// travel
+		case 5 :
+			mapMarker = R.drawable.map_marker_travel;
+			break;
+		}
+		
+		Log.d("DEBUG", "map marker:"+mapMarker);
+		
 		map.clear();
-		LatLng currentPosition = new LatLng(location.getLatitude(),
-				location.getLongitude());
-		map.addMarker(new MarkerOptions().anchor(0.0f, 1.0f).position(currentPosition).snippet(
-				"Lat:" + location.getLatitude() + "Lng:"
-						+ location.getLongitude()));
+		
+		moveMapCamera(deals.get(0).getLat(), deals.get(0).getLon());
+		
+		for(int i=0; i<deals.size(); i++) {
+			Deal deal = deals.get(i);
+			latitude = deal.getLat();
+			longitude = deal.getLon();
+			dealTitle = deal.getDealTitle() + " at " + deal.getName();
+			
+			drawMarker(i, latitude, longitude, dealTitle, mapMarker);
+		}
+		
+	}
+	
+	private void moveMapCamera(double lat, double lon) {
+		LatLng latLng = new LatLng(lat, lon);
+		map.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 16));
+		map.animateCamera(CameraUpdateFactory.zoomTo(14), 2000, null);
+	}
+
+	private void drawMarker(int index, double latitude, double longitude, String title, int mapMarker) {
+		LatLng position = new LatLng(latitude, longitude);
+				
+		Marker marker = map.addMarker(new MarkerOptions().anchor(0.0f, 1.0f).position(position)
+				.icon(BitmapDescriptorFactory.fromResource(mapMarker))
+				.title(title));
+		
+		markersMap.put(marker.getId(), new Integer(index));
 	}
 
 }
