@@ -8,6 +8,7 @@ import java.net.URL;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MotionEvent;
 import android.widget.Button;
@@ -35,7 +36,6 @@ public class DealDetailActivity extends Activity implements SimpleGestureListene
 		position = (int) getIntent().getIntExtra("position",0);
 		refresh();
 	}
-
 
 	public static String getFinalRedirectedUrl(String url)
 	{

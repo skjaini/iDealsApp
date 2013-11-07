@@ -3,12 +3,12 @@
 	<item>
 		<shape android:shape="rectangle"
 			android:dither="true">
-			<corners android:radius="2dp"/>
+			<corners android:radius="4dp"/>
 			<!--  solid android:color="#F0F4F5" / -->
 		</shape>
 	</item>
 
-	<item android:bottom="2dp">
+	<item android:bottom="4dp">
 		<shape android:shape="rectangle"
 			android:dither="true">
 			<corners android:radius="4dp" />

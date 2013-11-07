@@ -67,13 +67,18 @@ public class DealsListFragment extends ListFragment {
         
 		lvDeals = (ListView) view.findViewById(android.R.id.list);
 		lvDeals.setAdapter(dealsAdapter);
+
+		setListAdapter(dealsAdapter);
 		
-		return view;
+		// return view;
+		return super.onCreateView(inflater, container, savedInstanceState);
 	}
 	
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
+		
+		setListShown(false);
 	}
 	
 	@Override
@@ -113,12 +118,12 @@ public class DealsListFragment extends ListFragment {
 				dealsAdapter.clear();
 				dealsAdapter.addAll(deals);
 				*/
-
 				Log.d("DEBUG", "size of response json:"+jsonArray.length());
 				dealManager.setCategoryID(categoryID);
 				dealManager.getDeals().clear();
 				dealManager.addDeals(Deal.fromJSONArray(jsonArray));
 				dealsAdapter.notifyDataSetChanged();
+				setListShown(true);
 			}
 		});
 	}
