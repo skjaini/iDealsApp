@@ -7,8 +7,8 @@
     <string name="title_activity_deals_map">DealsMapActivity</string>
     <string name="title_activity_deal_detail">iDeals</string>
     <string name="title_activity_deals_home">DealsHomeActivity</string>
-
     <string name="nav_filter">Filter Deals By Category:</string>
+
     <string-array name="categories_array">
         <item>All Deals</item>
         <item>Restaurants</item>
@@ -17,6 +17,9 @@
         <item>Shopping</item>
         <item>Travel</item>
     </string-array>
+
     <string name="drawer_open">Open navigation drawer</string>
     <string name="drawer_close">Close navigation drawer</string>
+    <string name="title_activity_splash_scren">SplashScrenActivity</string>
+
 </resources>
