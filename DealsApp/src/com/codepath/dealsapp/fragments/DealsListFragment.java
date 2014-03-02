@@ -78,8 +78,6 @@ public class DealsListFragment extends ListFragment {
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
-		
-		setListShown(false);
 	}
 	
 	@Override
@@ -101,6 +99,9 @@ public class DealsListFragment extends ListFragment {
 	public void loadDeals(int id, String zip) {
 		String requestUrl;
 		categoryID = id;
+		
+		setListShown(false);
+		
 		if(categoryID < 1) {
 			requestUrl = "http://api.8coupons.com/v1/getdeals?key=b115affda61e93374155aca0aeb6adf1c8e16e46cf992bd46201021556d3b2dff5b18ee48b51c78e7ceaff54649ad4c2&zip="+zip+"&mileradius=5&limit=10&orderby=radius";
 		} else {

@@ -170,7 +170,7 @@ public class DealsMapFragment extends Fragment {
 			break;
 		// restaurant
 		case 1 : 
-			mapMarker = R.drawable.map_marker;
+			mapMarker = R.drawable.map_marker_restaurant;
 			break;
 		// entertainment
 		case 2 : 
