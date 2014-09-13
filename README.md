@@ -92,7 +92,7 @@ I have uploaded my machines debug.keystore in the git repository. It should be i
 * On the left side, choose Android => Build.
 * Browse and choose the debug.keystore in the project for the custom setting.
 
-_If that doesnt work try this_:
+# _If that doesnt work try this_:
 ## Getting client key
 1. Go to [Deals Google App Console](https://console.developers.google.com/project/apps~locus-deals-1/apiui/api).
 2. Go to Credentials => Create New Key => Android Key.
