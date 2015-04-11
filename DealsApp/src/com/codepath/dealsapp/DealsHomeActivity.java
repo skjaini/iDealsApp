@@ -70,9 +70,9 @@ public class DealsHomeActivity extends FragmentActivity implements TabListener, 
 		
 		ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(
 				getApplicationContext()).defaultDisplayImageOptions(
-				defaultOptions).build();
+						defaultOptions).build();
 		ImageLoader.getInstance().init(config);
-
+ 
 		setContentView(R.layout.activity_deals_home);
 		setupNavigationTabs();
 		setupNavigationDrawer();
@@ -192,18 +192,17 @@ public class DealsHomeActivity extends FragmentActivity implements TabListener, 
 		ActionBar actionBar = getActionBar();
 		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
 		actionBar.setDisplayShowTitleEnabled(true);
-		tabList = actionBar.newTab().setText("Deals")
+		Tab tabList= actionBar.newTab().setText("List")
 				.setTag("DealsListFragment").setIcon(R.drawable.ic_action_list)
 				.setTabListener(this);
 
-		tabMap = actionBar.newTab().setText("Map")
+		Tab tabMap = actionBar.newTab().setText("Map")
 				.setTag("DealsMapFragment").setIcon(R.drawable.ic_action_map)
 				.setTabListener(this);
 
 		actionBar.addTab(tabList);
 		actionBar.addTab(tabMap);
 		actionBar.selectTab(tabList);
-		
 	}
 
 	@Override
